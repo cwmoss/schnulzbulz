@@ -1,0 +1,61 @@
+<html lang="en">
+<?php
+/*
+Foto von <a href="https://unsplash.com/de/@etiennegirardet?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Etienne Girardet</a> auf <a href="https://unsplash.com/de/fotos/OA0qcP6GOw0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Foto von <a href="https://unsplash.com/de/@tompumford?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tom Pumford</a> auf <a href="https://unsplash.com/de/fotos/T5lmpSYxnSU?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Foto von <a href="https://unsplash.com/de/@yangmiao?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">yang miao</a> auf <a href="https://unsplash.com/de/fotos/Z5Lsb65XoCE?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Foto von <a href="https://unsplash.com/de/@freewalkingtoursalzburg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Free Walking Tour Salzburg</a> auf <a href="https://unsplash.com/de/fotos/1e8U07dNaFI?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+  
+*/
+?>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aua!</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            background-image: url(<?= data_url(__DIR__ . '/images/exception-1.jpg', 'image/jpg') ?>);
+            background-size: cover;
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            column-gap: 20px;
+        }
+
+        section {
+            background-color: white;
+            padding: 1em;
+        }
+
+        .container img {
+            width: 420px;
+        }
+
+        .text {
+            display: block;
+            padding: 40px 40px;
+            width: 450px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section>
+            <h1><?= $message ?></h1>
+            <code>
+                <pre><?= $trace ?></pre>
+            </code>
+        </section>
+    </main>
+</body>
+
+</html>

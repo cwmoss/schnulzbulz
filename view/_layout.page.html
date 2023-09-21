@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mullitics - zero-effort minimal analytics</title>
+    <link rel="stylesheet" href="/admin/styles.css" type="text/css" />
+    </link>
+    <style>
+        body>header {
+            max-width: 1148px;
+            margin: 0 auto;
+            padding-top: 30px;
+        }
+
+        h1 img {
+            margin-bottom: -5px;
+            margin-right: 10px;
+        }
+
+        h1 {
+            font-weight: 900;
+        }
+
+        main {
+            max-width: 1148px;
+            margin: 0 auto;
+            padding: 60px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            gap: 60px 160px;
+        }
+
+        @media screen and (max-width: 1200px) {
+            main {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        main> ::slotted([wide]) {
+            grid-column: 1/-1;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>
+            disco
+        </h1>
+    </header>
+    <main><?= $content ?></main>
+    <noscript>
+        <pre>
+#
+# Please, enable JavaScript for better viewing experience.
+#
+    </pre>
+    </noscript>
+</body>

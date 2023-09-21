@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS testarticles;
+
+DROP TABLE IF EXISTS cars;

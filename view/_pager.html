@@ -1,0 +1,62 @@
+<?php
+
+if (!isset($info) || !$info) {
+    return;
+}
+$show_links ??= true;
+$show_navigation ??= true;
+$range ??= 5;
+$link_class ??= "";
+$active_link_class ??= "";
+$exact_active_link_class ??= "";
+$first_label ??= '«';
+$prev_label ??= '‹';
+$next_label ??= '›';
+$last_label ??= '»';
+$aria_label ??= 'Pagination Navigation';
+$aria_link_label ??= 'Go to page {n}';
+$aria_first_label ??= 'Go to first page';
+$aria_current_label ??= 'Current page. Page {n}';
+$aria_prev_label ??= 'Go to previous page. Page {n}';
+$aria_next_label ??= 'Go to next page. Page {n}';
+$aria_last_label ??= 'Go to last page. Page {n}';
+$params ??= [];
+//$url = "/page/:n";
+
+if ($range) {
+    $start = $info->currentpage - $range;
+    if ($start < 1) {
+        $start = 1;
+    }
+    $end = $info->currentpage + $range;
+    if ($end > $info->totalpages) {
+        $end = $info->totalpages;
+    }
+} else {
+    $start = 1;
+    $end = $info->totalpages;
+}
+
+?>
+
+<nav aria-label="<?= h($aria_label) ?>" role="navigation" class="pager">
+    <?php if ($show_navigation && $info->less) { ?>
+        <a href="<?= text_for($url, ['n' => $info->prev]) ?>" class="nav nav--prev" aria-label="<?= h(text_for($aria_prev_label, ['n' => $info->prev])) ?>"><?= $prev_label ?></a>
+    <?php } ?>
+    <?php if ($show_links) {
+        for ($n = $start; $n <= $end; $n++) {
+            if ($n == $info->currentpage) {
+                $active = 'active ' . $active_link_class;
+                $label = text_for($aria_current_label, ['n' => $n]);
+            } else {
+                $active = "";
+                $label = text_for($aria_link_label, ['n' => $n]);
+            } ?>
+            <a href="<?= text_for($url, ['n' => $n]) ?>" class="page <?= $link_class ?> <?= $active ?>" aria-label="<?= h($label) ?>"><?= $n ?></a>
+    <?php
+        }
+    } ?>
+    <?php if ($show_navigation && $info->more) { ?>
+        <a href="<?= text_for($url, ['n' => $info->next]) ?>" class="nav nav--next" aria-label="<?= h(text_for($aria_next_label, ['n' => $info->next])) ?>"><?= $next_label ?></a>
+    <?php } ?>
+</nav>

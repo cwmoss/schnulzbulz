@@ -1,0 +1,9 @@
+###
+
+POST http://localhost:5001/api/new_comment
+
+{
+    "title": "erster beitrag",
+    "url": "http://alotta.net/ella/neue_blumen",
+    "content": "testmessage11"
+}

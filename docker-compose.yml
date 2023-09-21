@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+
+  disco:
+    image: php81
+    build: 
+      context: ./
+      dockerfile: docker/Dockerfile.81
+    container_name: devdisco81
+    restart: unless-stopped
+    volumes:
+      - ./:/application
+    ports:
+      - 5001:8080
+    command: "php -d short_open_tag=On -S 0.0.0.0:8080 -t public/ dev-router.php"
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    environment:
+      ODA_CONF: oda_docker.ini
+      ODA_CLIENT: barclays
+      ODA_THEME: bci2023
+      XORC_ENV: local
+
+  db:
+    image: mariadb:lts
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: 123456
+      MARIADB_DATABASE: app
+      MARIADB_USER: app
+      MARIADB_PASSWORD: 123456
+    ports:
+      - 5005:3306
+    volumes:
+      - db_data:/var/lib/mysql
+      
+  adminer:
+    image: adminer
+    restart: "no"
+    ports:
+      - 5006:8080
+
+volumes:
+  db_data:

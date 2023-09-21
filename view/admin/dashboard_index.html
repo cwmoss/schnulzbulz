@@ -1,0 +1,15 @@
+<section>
+    <h2>dashboard</h2>
+
+    <?= $H->link('admin.user/index', 'users') ?>
+
+    <?= $H->link('pages', 'pages') ?>
+
+    <ul>
+        <? foreach ($comments as $comment) { ?>
+            <li> <?= $comment->id ?> <?= $comment->content ?> <?= $comment->created_at ?></li>
+        <? } ?>
+    </ul>
+
+    <?= $this->render_part('pager', ['info' => $pager, 'url' => $H->url('index') . '/{n}']) ?>
+</section>

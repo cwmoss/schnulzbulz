@@ -1,0 +1,27 @@
+<?php
+if(!$object){
+	if(!$form) return;
+	$object = $form->obj;
+}
+if(!is_callable([$object, 'validatable_get_validator'])) return;
+
+if(!$elements){
+	$elements = null;
+	if(!$event) $event = 'save';
+}else{
+	$event = null;
+	if($elements=='tan'){
+		$elements = [$elements];
+	}
+}
+
+if(!$prefix) $prefix = $form->name;
+
+if(!$vopts) $vopts = [];
+$vopts = array_merge(['onsubmit'=>false], $vopts);
+
+
+
+?>
+
+<?=$object->validatable_get_validator()->js_html_tag($elements, $event, ['prefix'=>$prefix, 'vopts'=>$vopts])?>

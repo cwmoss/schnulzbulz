@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+
+use xorc\cli\parser;
+use xorc\cli\dispatcher;
+use DI\ContainerBuilder;
+
+ini_set("max_execution_time", "600");
+// error_reporting(63);
+
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+$BASE = dirname(__DIR__);
+
+$_SERVER += getenv();
+
+define('XORC_APP_BASE', $BASE);
+define('XORC_APP_BASEURL', '/');
+
+
+$cli = new parser($argv);
+
+$containerBuilder = new ContainerBuilder;
+$containerBuilder->addDefinitions([
+	'appname' => 'oda',
+	'base' => dirname(__DIR__),
+	'configfile' => $cli->get_opt('c', 'config')
+]);
+
+$containerBuilder->addDefinitions($BASE . '/src/_config.php');
+
+$container = $containerBuilder->build();
+
+$config = $container->get(xorc\config::class);
+$config->setup();
+xorc\util::set_state('ini', $config->conf);
+
+
+$dispatcher = new dispatcher($cli, $BASE . '/scripts', "disco. command-line-interface.\n\t\t-rw, (c) 2023, 20sec.net");
+
+$command = $dispatcher->dispatch();
+if ($command) {
+	include($command);
+}

@@ -1,0 +1,34 @@
+#php_value include_path ".:/home/share/projekte/bob/lib:/home/share/xorc:.:/usr/local/lib/php"
+#php_flag display_errors off
+
+SetEnv XORC_ENV development
+
+SetEnv ODA_CONF oda_local.ini
+SetEnv ODA_CLIENT barclays
+SetEnv ODA_THEME bci2023
+
+#SetEnv BOB_DOMAIN_BANKING 1
+SetEnv ODA_DOMAIN_NEUKUNDE 1
+SetEnv ODA_LANG de_DE
+SetEnv ODA_LANG_SHORT de
+SetEnv ODA_HOMEPAGE tagesgeldantrag/start
+
+RewriteEngine On
+
+# pdfs
+RewriteRule (tagesgeldantrag/pdf.*)$ index.php [QSA,L]
+
+# we skip all files with .something
+RewriteCond %{REQUEST_URI} \..+$
+RewriteRule .* - [L]
+
+# we check if the .html version is here (caching)
+RewriteRule ^$ index.html [QSA]
+RewriteRule ^([^.]+)$ $1.html [QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# if no rule matched the url, we redirect to our front web controller
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# big crash from our front web controller
+ErrorDocument 500 "<h2>Application error</h2>application failed to start properly"

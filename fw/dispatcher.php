@@ -1,0 +1,93 @@
+<?php
+
+namespace xorc;
+
+use DI\Container;
+use FastRoute\Dispatcher as fr_dispatcher;
+use xorc\util;
+use xorc\request;
+use Psr\Http\Message\ResponseInterface;
+use xorc\util_names;
+
+class dispatcher {
+
+    public function __construct(public Container $container) {
+    }
+
+    public function dispatch_fastroute(array $route, $psr_request) {
+        [$route, $callable_props, $params] = $route + [2 => []];
+
+        $callable_props[0] ??= $params['controller'];
+        $callable_props[1] ??= $params['action'];
+        if (isset($params['prefix'])) {
+            $callable_props[2] ??= $params['prefix'];
+        }
+        $params['psr7'] = $psr_request;
+
+        # dd($callable);
+        return match ($route) {
+            fr_dispatcher::NOT_FOUND => throw new \Exception("Not Found"),
+            fr_dispatcher::METHOD_NOT_ALLOWED => throw new \Exception("Method Not Allowed"),
+            fr_dispatcher::FOUND => $this->dispatch_route($callable_props, $params),
+        };
+    }
+
+    public function dispatch_route(array $callable_props, array $parameters) {
+        dbg("dispatch-route", $callable_props);
+        [$controller, $action, $prefix] = $callable_props;
+        // check access
+        if ($controller[0] == '_' || $action[0] == '_') throw new \Exception("Not Found");
+
+        $classname = util_names::controller_classname_from_router_props($controller, $prefix);
+        $ctrl = $this->container->make($classname);
+
+        $request = $this->container->make(request::class);
+        $request->set_action(util_names::controller_name($ctrl::class), $action);
+
+        // der legacy request kann in der action konsumiert werden
+        $parameters['request'] = $request;
+
+        if (method_exists($ctrl, 'set_request')) $ctrl->set_request($request);
+        if (method_exists($ctrl, '_init_before')) $ctrl->_init_before($action, $controller . '/' . $action);
+        if (method_exists($ctrl, '_init')) $ctrl->_init();
+
+        util::set_state('ctrl', $ctrl);
+
+        $result = $this->container->call([$ctrl, $action], $parameters);
+        return $this->handle_result($result, $ctrl, $action);
+    }
+
+    public function handle_result($res, $ctrl, $action) {
+        $theme = (method_exists($ctrl, 'theme')) ? $ctrl->theme() : '';
+        if ($res instanceof ResponseInterface) {
+            // dd("yes");
+            return $res;
+        } elseif ($res instanceof view) {
+            $view = $res;
+            $view->setup($this->container->get('base'), $theme);
+        } elseif ($res === null) {
+            $view = view::new_from_controller($ctrl, $action)
+                ->setup($this->container->get('base'), $theme);
+        } elseif (is_string($res)) {
+            $view = view::new_from_controller($ctrl, $res)
+                ->setup($this->container->get('base'), $theme);
+        } elseif (is_array($res)) {
+            $view = view::new_from_controller($ctrl, $action)
+                ->setup($this->container->get('base'), $theme)
+                ->data($res);
+        } elseif ($res === false) {
+            // do nothing
+            dbg("+++ result: nothing");
+            return;
+        }
+        dbg("++ view!", $view);
+        // var_dump($res, $view);
+        $out = $view->render();
+        $html = $view->render_page($out);
+        if ($ctrl->_post_render) {
+            $html = [$ctrl, $ctrl->_post_render](...)($html);
+        }
+        return $html;
+        // dd($ctrl);
+    }
+}

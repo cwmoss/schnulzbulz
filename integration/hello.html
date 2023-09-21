@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello</title>
+    <script type="module" src="//localhost:5001/js/client/disco.js"></script>
+    <style>
+        h1 {
+            color: aqua;
+
+        }
+
+        .comment-box {
+            background-color: aliceblue;
+        }
+
+        section {
+            width: 500px;
+        }
+
+        .logo {
+            height: 6px;
+            width: 6px;
+            margin: 10px auto;
+            text-align: center;
+            background: white;
+            border-radius: 1px;
+            padding: 0px;
+            padding-top: 0;
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            color: black;
+            box-shadow: 0 0 0 2px violet, 0 0 0 4px indigo, 0 0 0 6px blue,
+                0 0 0 8px green, 0 0 0 10px yellow, 0 0 0 12px orange, 0 0 0 14px red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>hello page</h1>
+
+    <div class="borders"></div>
+    <p>you can leave your comments down here</p>
+
+    <button id="test" type="button" onclick="xxdo_test()">test</button>
+
+    <section>
+        <the-disco></the-disco>
+    </section>
+
+    <script>
+        function do_test() {
+            var host = "http://localhost:5001/api/";
+            var meth = 'new_comment'
+            var indata = {
+                url: "http://test.tv/nur/ein/test",
+                content: "ttt+++test"
+            }
+            console.log("++ fetch");
+            fetch(host + meth, {
+                method: "POST", // or 'PUT'
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(indata),
+            }).then(res => console.log("result++", res)).then(res => res);
+        }
+    </script>
+</body>
+
+</html>

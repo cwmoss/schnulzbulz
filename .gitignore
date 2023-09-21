@@ -1,0 +1,9 @@
+composer.lock
+vendor/
+lib/
+var/
+playxorc2/
+.DS_Store
+*.db
+config/disco_local.ini
+config/disco_docker.ini

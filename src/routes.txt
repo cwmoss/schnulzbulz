@@ -1,0 +1,6 @@
+/					tagesgeldantrag/start
+tagesgeldantrag/pdf/$id   tagesgeldantrag/pdf	  $id~([\w._]+)?   $id=
+webid/$controller/$action/$id	   webid/$controller/$action	$id~([-_\w]+)? $id=
+$controller/					$controller/no_default 
+$controller					$controller/no_default 
+$controller/$action/$id		$controller/$action	$id~([-\w]+)? $id=
