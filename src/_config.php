@@ -9,7 +9,7 @@ use function DI\get;
 
 return [
     xorc\config::class => DI\create()
-        ->constructor(DI\get('base'), DI\get('appname'), DI\get('configfile')),
+        ->constructor(DI\get('base'), DI\get('appname'), false),
     xorc\db\pdox::class => DI\create()
         ->constructor('sqlite:' . XORC_APP_BASE . '/disco.db', null, null, new xorc\db\logger),
 

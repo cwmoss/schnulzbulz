@@ -4,15 +4,19 @@ namespace xorc;
 
 class config {
 
-    public array $files;
-    public array $conf;
+    public array $files = [];
+    public array $conf = [];
 
-    function __construct(public string $base, public string $appname, string $configfile = null) {
+    function __construct(public string $base, public string $appname, string|bool|null $configfile = null) {
         $this->load_ini($configfile);
     }
 
     // APPNAME_CONF=oda_local.ini php -S localhost:9999 -t public/
     function load_ini($conf = null) {
+        // no config needed?
+        if ($conf === false) {
+            return;
+        }
         // via cli?
         if ($conf) {
             if ($conf[0] != '/' && ($conf[0] == '.' || str_starts_with($conf, 'config/'))) {

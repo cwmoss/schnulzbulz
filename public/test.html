@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>testdesign</title>
+    <link rel="stylesheet" href="/public/admin/styles.css" type="text/css" />
+
+    <style>
+      body > header {
+        max-width: 1148px;
+        margin: 0 auto;
+        padding-top: 30px;
+      }
+
+      h1 img {
+        margin-bottom: -5px;
+        margin-right: 10px;
+      }
+
+      h1 {
+        font-weight: 900;
+      }
+
+      main {
+        max-width: 1148px;
+        margin: 0 auto;
+        padding: 60px 30px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        gap: 1em 1em;
+      }
+
+      @media screen and (max-width: 800px) {
+        main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      main > .wide {
+        grid-column: 1/-1;
+      }
+      section {
+        border: 1px solid gray;
+        padding: 1em;
+      }
+
+      button {
+        background-color: white;
+        font-weight: 500;
+        border: none;
+        border: 1px solid #fff;
+        border-radius: 12px;
+        padding: 4px 8px;
+      }
+      button:hover {
+        background-color: #ddd;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>disco</h1>
+      <nav class="topnav">
+        <ul>
+          <li class="nav-link">
+            <a data-name="home">Home</a>
+          </li>
+          <li class="nav-link">
+            <a class="active" data-name="About">About</a>
+          </li>
+          <li class="nav-link">
+            <a data-name="services">services</a>
+          </li>
+          <li class="nav-link">
+            <a data-name="contact">contact</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section>eins</section>
+      <section><button>drück</button></section>
+      <section class="wide">wide</section>
+      <section>zwo</section>
+    </main>
+    <noscript>
+      <pre>
+#
+# Please, enable JavaScript for better viewing experience.
+#
+    </pre
+      >
+    </noscript>
+  </body>
+</html>

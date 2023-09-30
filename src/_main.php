@@ -16,6 +16,10 @@ use WoohooLabs\Harmony\Middleware\LaminasEmitterMiddleware;
 use xorc\middleware\cors;
 use xorc\middleware\fastroute_dispatcher;
 
+// no errors to browser
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
 /*
 
 https://github.com/nikic/FastRoute/issues/110
@@ -25,8 +29,6 @@ TODO: BASEURL
 $_SERVER += getenv();
 define('XORC_APP_BASE', dirname(__DIR__));
 define('XORC_APP_BASEURL', '/');
-
-define('ODA_CLIENT_CONF', dirname(__DIR__) . '/config/' . $_SERVER['ODA_CLIENT'] . '/');
 
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions([
@@ -47,7 +49,7 @@ dbg("+++ db", $container->get(\xorc\db\pdox::class));
 
 #dd($container);
 $router = $container->get(router::class);
-$router->add('GET', '/', [controller\api::class, 'hello']);
+$router->add('GET', '/', ['api', 'hello']);
 $router->add('GET', '/admin/{controller}/{action}[/{id}]', [null, null, 'admin']);
 $router->add('POST', '/admin/{controller}/{action}[/{id}]', [null, null, 'admin']);
 $router->add('GET', '/{controller}/{action}[/{id}]', null);

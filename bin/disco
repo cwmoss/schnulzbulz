@@ -22,9 +22,9 @@ $cli = new parser($argv);
 
 $containerBuilder = new ContainerBuilder;
 $containerBuilder->addDefinitions([
-	'appname' => 'oda',
+	'appname' => 'disco',
 	'base' => dirname(__DIR__),
-	'configfile' => $cli->get_opt('c', 'config')
+	// 'configfile' => $cli->get_opt('c', 'config')
 ]);
 
 $containerBuilder->addDefinitions($BASE . '/src/_config.php');
@@ -33,7 +33,7 @@ $container = $containerBuilder->build();
 
 $config = $container->get(xorc\config::class);
 $config->setup();
-xorc\util::set_state('ini', $config->conf);
+// xorc\util::set_state('ini', $config->conf);
 
 
 $dispatcher = new dispatcher($cli, $BASE . '/scripts', "disco. command-line-interface.\n\t\t-rw, (c) 2023, 20sec.net");

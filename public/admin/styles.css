@@ -53,6 +53,64 @@
   .countries-grid nu-worldmap {
     padding: 40px;
   }
+
+  nav.topnav{
+    ul {
+      list-style: none;
+    }
+    li{
+      display: inline-block;
+      margin: 1em 2em;
+    }
+    a {
+      display: block;
+      font-size: 2rem;
+      position: relative;
+      text-transform: uppercase;
+      transition: all 300ms ease;
+      width: fit-content;
+      cursor: pointer;
+      margin-bottom: 2em;
+    }
+    a.active{
+      border-bottom: 4px solid hotpink;
+    }
+    a:hover {
+      transform: skew(10deg);
+    }
+    a::before {
+      content: attr(data-name);
+      position: absolute;
+      top: 0;
+      left: -20px;
+      background: var(--color-background);
+      height: 1.5rem;
+      overflow: hidden;
+      transition: all 300ms ease;
+      padding-left: 20px;
+    }
+    a:hover::before {
+      top: -3px;
+      left: 0px;
+      color: hotpink;
+    }
+    
+    a::after {
+      content: "";
+      height: 4px;
+      width: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: hotpink;
+      transition: all 300ms ease;
+    }
+    a:hover::after {
+      width: 120%;
+      outline: 1px solid rgb(2, 0, 36);
+    }
+  }
   @media screen and (max-width: 560px) {
     :root {
       --font-size: 10px;
